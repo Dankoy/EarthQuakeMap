@@ -10,9 +10,9 @@ public class UsingImages extends PApplet {
 	PImage backgroundImg;
 	
 	public void setup() {
-		size(800, 600);
-		background(255);
-		stroke(0);
+		size(800, 600);		// size of canvas
+		background(255);	
+		stroke(0);			// set pen color
 		backgroundImg = loadImage("basel-old-town.jpg", "jpg");
 	}
 	
@@ -33,7 +33,7 @@ public class UsingImages extends PApplet {
 		*/ 
 		float diff = Math.abs(30-seconds);
 		
-		float ratio = diff/30;
+		float ratio = diff/30;		// how far from point 30
 		rgb[0] = (int)(255*ratio);
 		rgb[1] = (int)(255*ratio);
 		rgb[2] = 0;
