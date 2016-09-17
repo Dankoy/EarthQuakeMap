@@ -5,6 +5,8 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import processing.core.PApplet;
 
@@ -19,16 +21,17 @@ public class TwoMaps extends PApplet {
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
 	
 	UnfoldingMap map1;
+	UnfoldingMap map2;
 	
 	public void setup() {
 		
 		// This sets the background color for the Applet.  
-		size(800, 600, P2D);
+		size(850, 600, P2D);
 		
 		this.background(200, 200, 200);
 		
 		// Provider for map
-		AbstractMapProvider provider = new Google.GoogleTerrainProvider();
+		AbstractMapProvider provider = new OpenStreetMap.OpenStreetMapProvider(); 
 		int zoomLevel = 10;
 		
 		if (offline) {
@@ -39,13 +42,18 @@ public class TwoMaps extends PApplet {
 		map1 = new UnfoldingMap(this, 50, 50, 350, 500, provider);
 		map1.zoomAndPanTo(zoomLevel, new Location(47.441812f, 7.7644f));
 		
+		map2 = new UnfoldingMap(this, 450, 50, 350, 500, provider);
+		map2.zoomAndPanTo(zoomLevel, new Location(47.441812f, 7.7644f));
+		
 		// Makes the map interactive
 		MapUtils.createDefaultEventDispatcher(this, map1);
+		MapUtils.createDefaultEventDispatcher(this, map2);
 		
 	}
 	
 	public void draw() {
 		map1.draw();
+		map2.draw();
 	}
 	
 }
