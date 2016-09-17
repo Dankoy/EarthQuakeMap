@@ -17,12 +17,12 @@ public class UsingImages extends PApplet {
 	}
 	
 	public void draw() {
-		backgroundImg.resize(0, height);
-		image(backgroundImg, 0, 0);
+		backgroundImg.resize(0, height);	// resize loaded image to full height of canvas
+		image(backgroundImg, 0, 0);			// display image
 		
-		int[] colors = sunColorSeconds(second());
-		fill(colors[0], colors[1], colors[2]);
-		ellipse(width-100, height/6, 50, 50);
+		int[] colors = sunColorSeconds(second());	// calculate color for sun
+		fill(colors[0], colors[1], colors[2]);	// fill the sun with color depending on time
+		ellipse(width-100, height/6, 50, 50);	// draw the sun
 	}
 	
 	public int[] sunColorSeconds(float seconds) {
