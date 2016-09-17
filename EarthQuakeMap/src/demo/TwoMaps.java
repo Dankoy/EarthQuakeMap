@@ -23,6 +23,10 @@ public class TwoMaps extends PApplet {
 	UnfoldingMap map1;
 	UnfoldingMap map2;
 	
+	AbstractMapProvider provider1;
+	AbstractMapProvider provider2;
+	AbstractMapProvider provider3;
+	
 	public void setup() {
 		
 		// This sets the background color for the Applet.  
@@ -30,19 +34,23 @@ public class TwoMaps extends PApplet {
 		
 		this.background(200, 200, 200);
 		
-		// Provider for map
-		AbstractMapProvider provider = new OpenStreetMap.OpenStreetMapProvider(); 
+		// Providers for map
+		provider1 = new OpenStreetMap.OpenStreetMapProvider();	// Used as default provider
+		provider2 = new Microsoft.AerialProvider();
+		provider3 = new Google.GoogleMapProvider();
 		int zoomLevel = 10;
 		
 		if (offline) {
-			provider = new MBTilesMapProvider(mbTilesString);
+			provider1 = new MBTilesMapProvider(mbTilesString);
+			provider2 = new MBTilesMapProvider(mbTilesString);
+			provider3 = new MBTilesMapProvider(mbTilesString);
 			zoomLevel = 3;
 		}
 		
-		map1 = new UnfoldingMap(this, 50, 50, 350, 500, provider);
+		map1 = new UnfoldingMap(this, 50, 50, 350, 500, provider1);
 		map1.zoomAndPanTo(zoomLevel, new Location(47.441812f, 7.7644f));
 		
-		map2 = new UnfoldingMap(this, 450, 50, 350, 500, provider);
+		map2 = new UnfoldingMap(this, 450, 50, 350, 500, provider1);
 		map2.zoomAndPanTo(zoomLevel, new Location(47.441812f, 7.7644f));
 		
 		// Makes the map interactive
@@ -54,6 +62,23 @@ public class TwoMaps extends PApplet {
 	public void draw() {
 		map1.draw();
 		map2.draw();
+	}
+	
+	/* Allow use keyboard numbers '1, 2, 3' to change providers for maps. All map settings are persistent, i.e. 
+	* current transformations, markers, interactions, etc will stay the same.
+	*/
+	public void keyPressed() {  
+		if (key == '1') {
+	        map1.mapDisplay.setProvider(provider1);
+	        map2.mapDisplay.setProvider(provider1);
+	    } else if (key == '2') {
+	        map1.mapDisplay.setProvider(provider2);
+	        map2.mapDisplay.setProvider(provider2);
+	    }
+	    else if (key == '3') {
+	    	map1.mapDisplay.setProvider(provider3);
+	        map2.mapDisplay.setProvider(provider3);
+	    }
 	}
 	
 }
