@@ -9,6 +9,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -40,7 +41,7 @@ public class EarthQuakeMap extends PApplet {
 			
 		}
 		else {
-			map = new UnfoldingMap(this, 50, 50, 850, 500, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 50, 50, 850, 500, new OpenStreetMap.OpenStreetMapProvider());
 		}
 		
 		map.zoomToLevel(2);
@@ -51,9 +52,30 @@ public class EarthQuakeMap extends PApplet {
 		List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 				
 		for(PointFeature eq: earthquakes) {
-			markers.add(new SimplePointMarker(eq.getLocation(), eq.getProperties()));
+			SimplePointMarker mark = createMarker(eq);
+			
+			Object magObj = eq.getProperty("magnitude");
+	        float mag = Float.parseFloat(magObj.toString());
+			
+			if( mag < 1f) {
+				mark.setColor(grey);
+				mark.setRadius(5);
+			}
+			else if( mag >= 1f && mag < 2.5f) {
+				mark.setColor(green);
+				mark.setRadius(8);
+			}
+			else if( mag >= 2.5f && mag < 4.5f) {
+				mark.setColor(yellow);
+				mark.setRadius(10);
+			}
+			else {
+				mark.setColor(red);
+				mark.setRadius(15);
+			}			
+			markers.add(mark);
 		}
-		
+/*		
 		for (Marker mk: markers) {
 			if( (float) mk.getProperty("magnitude") < 1f) {
 				mk.setColor(grey);
@@ -68,9 +90,14 @@ public class EarthQuakeMap extends PApplet {
 				mk.setColor(red);
 			}
 		}
-		
+*/		
 		map.addMarkers(markers);
 		
+	}
+	
+	private SimplePointMarker createMarker(PointFeature feature)
+	{		
+		return new SimplePointMarker(feature.getLocation());
 	}
 	
 	public void draw() {
