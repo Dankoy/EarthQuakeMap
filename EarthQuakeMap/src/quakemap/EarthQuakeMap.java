@@ -1,9 +1,16 @@
 package quakemap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.fhpotsdam.unfolding.UnfoldingMap;
+import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.marker.Marker;
+import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
+import parsing.ParseFeed;
 import processing.core.PApplet;
 
 public class EarthQuakeMap extends PApplet {
@@ -16,6 +23,7 @@ public class EarthQuakeMap extends PApplet {
 	
 	private UnfoldingMap map;
 	
+	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 	
 	public void setup() {
 		
@@ -31,6 +39,16 @@ public class EarthQuakeMap extends PApplet {
 		
 		map.zoomToLevel(2);
 		MapUtils.createDefaultEventDispatcher(this, map);
+		
+		List<Marker> markers = new ArrayList<Marker>();
+		
+		List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
+		
+		for(PointFeature eq: earthquakes) {
+			markers.add(new SimplePointMarker(eq.getLocation(), eq.getProperties()));
+		}
+		
+		map.addMarkers(markers);
 		
 	}
 	
