@@ -27,6 +27,12 @@ public class EarthQuakeMap extends PApplet {
 	
 	public void setup() {
 		
+		// Colors for markers on map
+		int yellow = color(255, 255, 0); 	
+		int green = color(0, 255, 0);
+		int red = color(255, 0, 0);
+		int grey = color(200, 200, 200);
+		
 		size(950, 600, P2D);
 		
 		if (offline) {
@@ -43,9 +49,24 @@ public class EarthQuakeMap extends PApplet {
 		List<Marker> markers = new ArrayList<Marker>();
 		
 		List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
-		
+				
 		for(PointFeature eq: earthquakes) {
 			markers.add(new SimplePointMarker(eq.getLocation(), eq.getProperties()));
+		}
+		
+		for (Marker mk: markers) {
+			if( (float) mk.getProperty("magnitude") < 1f) {
+				mk.setColor(grey);
+			}
+			else if( (float) mk.getProperty("magnitude") >= 1f && (float) mk.getProperty("magnitude") < 2.5f) {
+				mk.setColor(green);
+			}
+			else if( (float) mk.getProperty("magnitude") >= 2.5f && (float) mk.getProperty("magnitude") < 4.5f) {
+				mk.setColor(yellow);
+			}
+			else {
+				mk.setColor(red);
+			}
 		}
 		
 		map.addMarkers(markers);
