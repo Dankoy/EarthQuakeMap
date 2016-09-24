@@ -37,26 +37,28 @@ public class LifeExpectancy extends PApplet {
 		map.zoomToLevel(2);
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
+		// Load lifeExpectancy data
 		lifeExpByCountry = loadLifeExpFromCSV("LifeExpectancyWorldBank.csv");
 		
+		// Load country polygons and adds them as markers
 		countries = GeoJSONReader.loadData(this, "countries.geo.json");
 		countryMarkers = MapUtils.createSimpleMarkers(countries);
 		map.addMarkers(countryMarkers);
 		
-		shadeCountries();
-		
+		// Country markers are shaded according to life expectancy
+		shadeCountries();	
 	}
 	
-
 	public void draw() {
 		background(10);
 		map.draw();
 	}
 	
+	// Method to load life expectancy data from file
 	private Map<String, Float> loadLifeExpFromCSV(String fileName) {
 		
 		Map<String, Float> lifeExp = new HashMap<String, Float>();
-		String rows[] = loadStrings(fileName);
+		String rows[] = loadStrings(fileName); 		// Reads country name and population density value from CSV row
 		
 		for(String row: rows) {
 			String columns[] = row.split(",");
@@ -68,6 +70,9 @@ public class LifeExpectancy extends PApplet {
 		return lifeExp;
 	}
 	
+	// Method color each country based on life expectancy
+	// Red-orange indicates low (near 40)
+	// Blue indicates high (near 100)
 	private void shadeCountries() {
 	
 		for (Marker marker: countryMarkers) {
@@ -75,7 +80,7 @@ public class LifeExpectancy extends PApplet {
 			
 			if(lifeExpByCountry.containsKey(countryID)) {
 				float lifeExp = lifeExpByCountry.get(countryID);
-				int colorLevel = (int) map(lifeExp, 40, 90, 10, 255);
+				int colorLevel = (int) map(lifeExp, 40, 90, 10, 255);		// Encode value as brightness (values range: 40-90)
 				marker.setColor(color(255-colorLevel, 100, colorLevel));
 			}
 			else {
