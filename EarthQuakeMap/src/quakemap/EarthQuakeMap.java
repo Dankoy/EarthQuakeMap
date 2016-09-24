@@ -104,6 +104,29 @@ public class EarthQuakeMap extends PApplet {
 	public void draw() {
 		background(10);
 		map.draw();
+		addKey();
+	}
+	
+	private void addKey() {
+		
+		// Earthquakes legend
+		fill(255);
+		rect(10, 50, 180, 300, 7);
+		
+		fill(0);
+		textSize(20);
+		text("The Legend", 15, 70);
+		
+		textSize(15);
+		text("Magnitude:", 15, 100);
+		
+		fill(255, 0, 0);
+		ellipse(50, 125, 30, 30);
+		fill(0);
+		textSize(12);
+		text("4.5+", 70, 130);
+		
+		
 	}
 	
 	public static void main (String[] args) {
