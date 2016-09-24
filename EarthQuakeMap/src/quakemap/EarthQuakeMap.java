@@ -111,11 +111,11 @@ public class EarthQuakeMap extends PApplet {
 		
 		// Earthquakes legend
 		fill(255);
-		rect(10, 50, 180, 300, 7);
+		rect(10, 50, 180, 200, 7);
 		
 		fill(0);
 		textSize(20);
-		text("The Legend", 15, 70);
+		text("The Legend", 35, 75);
 		
 		textSize(15);
 		text("Magnitude:", 15, 100);
@@ -125,6 +125,24 @@ public class EarthQuakeMap extends PApplet {
 		fill(0);
 		textSize(12);
 		text("4.5+", 70, 130);
+		
+		fill(255, 255, 0);
+		ellipse(50, 160, 25, 25);
+		fill(0);
+		textSize(12);
+		text("2.5+", 70, 165);
+		
+		fill(0, 255, 0);
+		ellipse(50, 190, 20, 20);
+		fill(0);
+		textSize(12);
+		text("1+", 70, 195);
+		
+		fill(200, 200, 200);
+		ellipse(50, 215, 15, 15);
+		fill(0);
+		textSize(12);
+		text("Below 1", 70, 220);
 		
 		
 	}
