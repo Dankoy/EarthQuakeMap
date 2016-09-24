@@ -24,7 +24,8 @@ public class EarthQuakeMap extends PApplet {
 	
 	private UnfoldingMap map;
 	
-	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+	// Feed of earthquakes happened last week with magnitude 1.0+
+	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.atom";
 	
 	public void setup() {
 		
@@ -37,11 +38,11 @@ public class EarthQuakeMap extends PApplet {
 		size(950, 600, P2D);
 		
 		if (offline) {
-			map = new UnfoldingMap(this, 50, 50, 850, 500, new MBTilesMapProvider(mbTilesString));
+			map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
 			
 		}
 		else {
-			map = new UnfoldingMap(this, 50, 50, 850, 500, new OpenStreetMap.OpenStreetMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 700, 500, new OpenStreetMap.OpenStreetMapProvider());
 		}
 		
 		map.zoomToLevel(2);
